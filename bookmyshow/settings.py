@@ -78,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'bookmyseat.wsgi.application'
+WSGI_APPLICATION = 'bookmyshow.wsgi.application'
 
 
 # Database
