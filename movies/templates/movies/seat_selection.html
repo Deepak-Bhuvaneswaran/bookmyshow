@@ -110,7 +110,8 @@
   }
   .seat.selected {
     background-color: #28a745;
-    color: white;
+    border-color: #28a745;
+    cursor: default; /* so it doesn’t look clickable */
   }
   .seat.sold {
     background-color: #ccc;
@@ -166,5 +167,31 @@
       </ul>
       <button type="submit">Book selected seats</button>
 </form> -->
+<script>
+  // This script adds the "selected" class to a seat when its checkbox is checked
+  document.addEventListener("DOMContentLoaded", function () {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"][name="seats"]');
+
+    checkboxes.forEach((checkbox) => {
+      const label = document.querySelector(`label[for="${checkbox.id}"]`);
+      const parentDiv = checkbox.closest(".seat");
+
+      // Initialize selected class if checked on load
+      if (checkbox.checked) {
+        parentDiv.classList.add("selected");
+      }
+
+      // Toggle selected class on change
+      checkbox.addEventListener("change", function () {
+        if (this.checked) {
+          parentDiv.classList.add("selected");
+        } else {
+          parentDiv.classList.remove("selected");
+        }
+      });
+    });
+  });
+</script>
+
 
 {% endblock %}
