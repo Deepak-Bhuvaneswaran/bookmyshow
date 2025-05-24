@@ -19,16 +19,23 @@ def theater_list(request,movie_id):
 
 
 @login_required(login_url='/login/')
-def book_seats(request,theater_id):
-    theaters=get_object_or_404(Theater,id=theater_id)
-    seats=Seat.objects.filter(theater=theaters)
-    if request.method=='POST':
-        selected_Seats= request.POST.getlist('seats')
-        error_seats=[]
-        if not selected_Seats:
-            return render(request,"movies/seat_selection.html",{'theater':theater,"seats":seats,'error':"No seat selected"})
-        for seat_id in selected_Seats:
-            seat=get_object_or_404(Seat,id=seat_id,theater=theaters)
+def book_seats(request, theater_id):
+    theater = get_object_or_404(Theater, id=theater_id)
+    seats = Seat.objects.filter(theater=theater)
+
+    if request.method == 'POST':
+        selected_seats = request.POST.getlist('seats')
+        error_seats = []
+
+        if not selected_seats:
+            return render(request, "movies/seat_selection.html", {
+                'theater': theater,
+                "seats": seats,
+                'error': "No seat selected"
+            })
+
+        for seat_id in selected_seats:
+            seat = get_object_or_404(Seat, id=seat_id, theater=theater)
             if seat.is_booked:
                 error_seats.append(seat.seat_number)
                 continue
@@ -36,15 +43,25 @@ def book_seats(request,theater_id):
                 Booking.objects.create(
                     user=request.user,
                     seat=seat,
-                    movie=theaters.movie,
-                    theater=theaters
+                    movie=theater.movie,
+                    theater=theater
                 )
-                seat.is_booked=True
+                seat.is_booked = True
                 seat.save()
             except IntegrityError:
                 error_seats.append(seat.seat_number)
+
         if error_seats:
-            error_message=f"The following seats are already booked:{',',join(error_seats)}"
-            return render(request,'movies/seat_selection.html',{'theater':theater,"seats":seats,'error':"No seat selected"})
+            error_message = f"The following seats are already booked: {', '.join(error_seats)}"
+            return render(request, 'movies/seat_selection.html', {
+                'theater': theater,
+                "seats": seats,
+                'error': error_message
+            })
+
         return redirect('profile')
-    return render(request,'movies/seat_selection.html',{'theaters':theaters,"seats":seats})
+
+    return render(request, 'movies/seat_selection.html', {
+        'theater': theater,
+        "seats": seats
+    })
