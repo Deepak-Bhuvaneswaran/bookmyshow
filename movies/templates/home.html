@@ -55,6 +55,12 @@
       background-color: #0056b3;
       border-color: #0056b3;
     }
+    .card-img-top.movie-poster {
+      height: 300px;
+      width: 100%;
+      object-fit: cover;
+    }
+    
   </style>
   
   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -73,7 +79,7 @@
           class="d-block w-100"
           src="https://assets-in.bmscdn.com/promotions/cms/creatives/1728390794440_bandlanddesktop.jpg"
           alt="First slide"
-          height="300"
+          height="250"
         />
       </div>
       <div class="carousel-item">
@@ -81,7 +87,7 @@
           class="d-block w-100"
           src="https://assets-in.bmscdn.com/promotions/cms/creatives/1726036566435_playcardnewweb.jpg"
           alt="Second slide"
-          height="300"
+          height="250"
         />
       </div>
       <div class="carousel-item">
@@ -89,7 +95,7 @@
           class="d-block w-100"
           src="https://assets-in.bmscdn.com/promotions/cms/creatives/1729172081740_sorcar1240x300.jpg"
           alt="Third slide"
-          height="300"
+          height="250"
         />
       </div>
     </div>
@@ -131,9 +137,8 @@
           <div class="card h-100">
             <img
               src="{{ movie.image.url }}"
-              class="card-img-top"
+              class="card-img-top movie-poster"
               alt="{{ movie.name }}"
-              height="300"
             />
             <div class="card-body d-flex flex-column justify-content-between">
               <h5 class="card-title text-center">{{ movie.name }}</h5>

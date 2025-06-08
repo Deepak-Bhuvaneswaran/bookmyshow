@@ -15,6 +15,7 @@ import os
 import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+ASGI_APPLICATION = 'bookmyshow.asgi.application'
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,10 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'daphne',
     'django.contrib.staticfiles',
     'users',
     'movies',
-    'bookmyshow'
+    'bookmyshow',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -53,8 +56,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"  
+    }
+}
+
 AUTH_USER_MODEL='auth.User'
-EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'dkbn1324@gmail.com' 
+EMAIL_HOST_PASSWORD = 'wsgp fnin uavj ybna' 
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

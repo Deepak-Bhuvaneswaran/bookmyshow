@@ -1,0 +1,96 @@
+{% extends "users/basic.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4">📊 Admin Dashboard</h2>
+
+  <div class="card mb-4">
+    <div class="card-body text-center">
+      <h4>Total Revenue</h4>
+      <p class="display-4 text-success">₹{{ total_revenue }}</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white">Most Popular Movies</div>
+        <ul class="list-group list-group-flush">
+          {% for movie in popular_movies %}
+          <li class="list-group-item d-flex justify-content-between">
+            {{ movie.movie__name }}
+            <span>{{ movie.total_bookings }} bookings</span>
+          </li>
+          {% endfor %}
+        </ul>
+        <div class="p-3">
+          <canvas id="movieChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card mb-4">
+        <div class="card-header bg-info text-white">Busiest Theaters</div>
+        <ul class="list-group list-group-flush">
+          {% for theater in busiest_theaters %}
+          <li class="list-group-item d-flex justify-content-between">
+            {{ theater.theater__name }}
+            <span>{{ theater.total_bookings }} bookings</span>
+          </li>
+          {% endfor %}
+        </ul>
+        <div class="p-3">
+          <canvas id="theaterChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const movieData = {
+    labels: [{% for movie in popular_movies %}"{{ movie.movie__name }}",{% endfor %}],
+    datasets: [{
+      label: 'Bookings',
+      data: [{% for movie in popular_movies %}{{ movie.total_bookings }},{% endfor %}],
+      backgroundColor: 'rgba(54, 162, 235, 0.7)',
+      borderWidth: 1
+    }]
+  };
+
+  const movieConfig = {
+    type: 'bar',
+    data: movieData,
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }
+  };
+
+  const theaterData = {
+    labels: [{% for theater in busiest_theaters %}"{{ theater.theater__name }}",{% endfor %}],
+    datasets: [{
+      label: 'Bookings',
+      data: [{% for theater in busiest_theaters %}{{ theater.total_bookings }},{% endfor %}],
+      backgroundColor: 'rgba(255, 99, 132, 0.7)',
+      borderWidth: 1
+    }]
+  };
+
+  const theaterConfig = {
+    type: 'bar',
+    data: theaterData,
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }
+  };
+
+  new Chart(document.getElementById('movieChart'), movieConfig);
+  new Chart(document.getElementById('theaterChart'), theaterConfig);
+</script>
+{% endblock %}

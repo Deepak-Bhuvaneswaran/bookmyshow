@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}BookMySeat{% endblock %}</title>
+    <title>{% block title %}BookMyShow{% endblock %}</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
       rel="stylesheet"
@@ -144,10 +144,13 @@
           <div class="col-md-4 mb-4 mb-md-0">
             <h5>Quick Links</h5>
             <ul class="list-unstyled">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Movies</a></li>
+              <li><a href="/">Home</a></li>
+              <li><a href="/movies/">Movies</a></li>
               <li><a href="#">Book Tickets</a></li>
               <li><a href="#">Contact</a></li>
+              {% if user.is_staff %}
+              <li><a href="{% url 'admin_dashboard' %}">Admin Dashboard</a></li>
+              {% endif %}            
             </ul>
           </div>
           <div class="col-md-4">

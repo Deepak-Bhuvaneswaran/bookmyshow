@@ -1,0 +1,103 @@
+{% extends "users/basic.html" %}
+{% block content %}
+
+<style>
+  .profile-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    font-family: Arial, sans-serif;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+  }
+
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+  }
+
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  .section-title {
+    font-size: 20px;
+    color: #555;
+    margin-bottom: 10px;
+    border-left: 4px solid #007BFF;
+    padding-left: 10px;
+  }
+</style>
+
+<div class="profile-container">
+  <h2>{{ user.username }}'s Booking History</h2>
+
+  <div class="section-title">Upcoming Bookings</div>
+  {% if upcoming_bookings %}
+    <table>
+      <tr>
+        <th>Movie</th>
+        <th>Theater</th>
+        <th>Seat</th>
+        <th>Showtime</th>
+        <th>Booked At</th>
+      </tr>
+      {% for booking in upcoming_bookings %}
+        <tr>
+          <td>{{ booking.showtime.movie.name }}</td>
+          <td>{{ booking.showtime.theater.name }}</td>
+          <td>{{ booking.seat.seat_number }}</td>
+          <td>{{ booking.showtime.time|date:"M d, Y h:i A" }}</td>
+          <td>{{ booking.booked_at|date:"M d, Y h:i A" }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No upcoming bookings.</p>
+  {% endif %}
+
+  <div class="section-title">Past Bookings</div>
+  {% if past_bookings %}
+    <table>
+      <tr>
+        <th>Movie</th>
+        <th>Theater</th>
+        <th>Seat</th>
+        <th>Showtime</th>
+        <th>Booked At</th>
+      </tr>
+      {% for booking in past_bookings %}
+        <tr>
+          <td>{{ booking.showtime.movie.name }}</td>
+          <td>{{ booking.showtime.theater.name }}</td>
+          <td>{{ booking.seat.seat_number }}</td>
+          <td>{{ booking.showtime.time|date:"M d, Y h:i A" }}</td>
+          <td>{{ booking.booked_at|date:"M d, Y h:i A" }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No past bookings.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

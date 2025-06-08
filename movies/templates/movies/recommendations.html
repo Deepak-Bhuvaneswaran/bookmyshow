@@ -1,0 +1,22 @@
+{% extends "users/basic.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4">🎬 Recommended For You</h2>
+  <div class="row">
+    {% for movie in recommended_movies %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100">
+        <img src="{{ movie.image.url }}" class="card-img-top" alt="{{ movie.name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ movie.name }}</h5>
+          <p class="card-text">{{ movie.genre }}</p>
+          <a href="{% url 'movie_detail' movie.id %}" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center">No recommendations available yet.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
